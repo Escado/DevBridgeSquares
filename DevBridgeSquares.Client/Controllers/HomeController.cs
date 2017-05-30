@@ -12,24 +12,5 @@ namespace DevBridgeSquares.Client.Controllers
         {
             return View();
         }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact(string name, string surname)
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
-        }
     }
 }

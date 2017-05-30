@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBridgeSquares.Test", "De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBridgeSquares.Services", "DevBridgeSquares.Services\DevBridgeSquares.Services.csproj", "{CE830F8F-7714-4E6E-BCFC-1A14B618D518}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevBridgeSquares.Repositories", "DevBridgeSquares.Repositories\DevBridgeSquares.Repositories.csproj", "{28EE10F7-31F8-40BD-8667-B5421AA0C4B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CE830F8F-7714-4E6E-BCFC-1A14B618D518}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE830F8F-7714-4E6E-BCFC-1A14B618D518}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE830F8F-7714-4E6E-BCFC-1A14B618D518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28EE10F7-31F8-40BD-8667-B5421AA0C4B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28EE10F7-31F8-40BD-8667-B5421AA0C4B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28EE10F7-31F8-40BD-8667-B5421AA0C4B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28EE10F7-31F8-40BD-8667-B5421AA0C4B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

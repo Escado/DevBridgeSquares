@@ -8,16 +8,14 @@ using DevBridgeSquares.Common.Exceptions;
 using DevBridgeSquares.Entities.ApiModels;
 using DevBridgeSquares.Common.Extensions;
 
-namespace RDS.API.Middlewares
+namespace DevBridgeSquares.Client.Middlewares
 {
     public class ExceptionMiddleware
     {
         RequestDelegate _next;
-        private ILogger Logger { get; }
 
-        public ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+        public ExceptionMiddleware(RequestDelegate next)
         {
-            Logger = loggerFactory.CreateLogger(GetType().Name);
             _next = next;
         }
 
