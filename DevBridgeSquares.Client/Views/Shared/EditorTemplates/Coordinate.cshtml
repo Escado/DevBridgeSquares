@@ -1,0 +1,7 @@
+﻿@model int
+
+@{
+    var name = ViewData["name"];
+}
+
+<input class="form-control text-box single-line input-validation-error" data-val="true" data-val-range="The field must be between -5000 and 5000." data-val-range-max="5000" data-val-range-min="-5000" data-val-required="The field @name is required." id="@name" name="@name" type="number" value="" aria-required="true" aria-describedby="@name-error" aria-invalid="true">

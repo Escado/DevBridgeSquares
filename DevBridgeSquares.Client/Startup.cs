@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DevBridgeSquares.Client.Middlewares;
+using DevBridgeSquares.Services.Services;
+using DevBridgeSquares.Repositories.Repositories;
 
 namespace DevBridgeSquares.Client
 {
@@ -28,6 +30,15 @@ namespace DevBridgeSquares.Client
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Services
+            services.AddScoped<IPointService, PointService>();
+
+            // Repositories
+            // services.AddScoped<IPointRepository, PointRepository>();
+
+            // Singletons
+            services.AddSingleton<IPointRepository, PointRepository>();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -36,7 +47,12 @@ namespace DevBridgeSquares.Client
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseStaticFiles();
+
+            app.UseCors(builder =>
+     builder.WithOrigins("http://localhost:54214").AllowAnyHeader().AllowAnyMethod());
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

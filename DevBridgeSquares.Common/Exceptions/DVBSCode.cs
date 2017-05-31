@@ -17,5 +17,11 @@ namespace DevBridgeSquares.Common.Exceptions
             [Description("Invalid request")]
             InvalidRequest = 10001,            
         }
+
+        public enum Point
+        {
+            [Description("List doesn't exist.")]
+            ListDoesntExist = 20001
+        }
     }
 }

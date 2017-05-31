@@ -10,11 +10,19 @@ namespace DevBridgeSquares.Entities.Models
     {
         [Required]
         [Range(-5000, 5000)]
+        [Display(Description = "X Coordinate")]
         public int X { get; set; }
 
         [Required]
         [Range(-5000, 5000)]
+        [Display(Description = "Y Coordinate")]
         public int Y { get; set; }
+
+        public Point(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
 
         public static bool operator ==(Point first, Point second)
         {

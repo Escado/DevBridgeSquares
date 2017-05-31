@@ -1,0 +1,21 @@
+﻿@model Point
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            @Html.LabelFor(x => x.X)
+            @Html.EditorFor(x => x.X, "Coordinate", "X", new { name = nameof(Model.X) })
+        </div>
+
+        <div class="col-md-6">
+            @Html.LabelFor(x => x.Y)
+            @Html.EditorFor(x => x.Y, "Coordinate", "Y", new { name = nameof(Model.Y) })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.ValidationSummary()
+    </div>
+</div>

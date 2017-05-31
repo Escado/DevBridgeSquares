@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DevBridgeSquares.Common\DevBridgeSquares.Common.csproj" />
     <ProjectReference Include="..\DevBridgeSquares.Entities\DevBridgeSquares.Entities.csproj" />
+    <ProjectReference Include="..\DevBridgeSquares.Repositories\DevBridgeSquares.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
