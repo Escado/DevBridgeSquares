@@ -18,6 +18,11 @@ namespace DevBridgeSquares.Entities.Models
         [Display(Description = "Y Coordinate")]
         public int Y { get; set; }
 
+        public Point()
+        {
+
+        }
+
         public Point(int x, int y)
         {
             X = x;
@@ -26,20 +31,25 @@ namespace DevBridgeSquares.Entities.Models
 
         public static bool operator ==(Point first, Point second)
         {
-            return first.X == second.X && first.Y == second.Y;
+            if (ReferenceEquals(first, null))
+            {
+                return ReferenceEquals(second, null);
+            }
+
+            return first.Equals(second);
         }
 
         public static bool operator !=(Point first, Point second)
         {
-            return first.X != second.X || first.Y != second.Y;
+            return !first.Equals(second);
         }
 
         public override bool Equals(object obj)
         {
             var comparator = obj as Point;
-            if (comparator != null)
-                return X == comparator.X && Y == comparator.Y;
-            return false;
+            if (ReferenceEquals(comparator, null))
+                return false;
+            return X == comparator.X && Y == comparator.Y;
         }
 
         public override int GetHashCode()

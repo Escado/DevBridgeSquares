@@ -2,19 +2,80 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
+@{await Html.RenderPartialAsync("Partials/AlertBox");}
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="panel panel-body panel-default panel-default">
             @{await Html.RenderPartialAsync("Partials/ListPicker");}
         </div>
-        
+
         <div class="panel panel-body panel-default panel-default">
             @{await Html.RenderPartialAsync("Partials/AddPoint");}
         </div>
-        
+
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         @{await Html.RenderPartialAsync("Partials/PointTable");}
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <h2>Total squares: <span id="total-squares"></span></h2>
+        <table class="table table-condensed table-hover" id="squares-table">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Point 1 coordinates (x,y)
+                    </th>
+                    <th>
+                        Point 2 coordinates (x,y)
+                    </th>
+                    <th>
+                        Point 3 coordinates (x,y)
+                    </th>
+                    <th>
+                        Point 4 coordinates
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <ul class="pagination">
+            <li><a id="backward-full-square"><<</a></li>
+            <li><a id="backward-square"><</a></li>
+            <li><a id="forward-square">></a></li>
+            <li><a id="forward-full-square">>></a></li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <label>Per page:</label>
+        <select class="" width="auto" id="paging-squares">
+            <option>
+                5
+            </option>
+            <option selected>
+                10
+            </option>
+            <option>
+                20
+            </option>
+            <option>
+                50
+            </option>
+        </select>
+    </div>
+</div>

@@ -1,20 +1,33 @@
 ﻿<div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <label for="point-lists">Select point list:</label>
         <select class="form-control" id="point-lists">
             <option>-</option>
         </select>
-        
+
+    </div>
+    <div class="col-md-6">
+        <label for="point-lists-button" class="">Reload lists:</label>
+        <input class="form-control btn btn-default" id="point-lists-button" type="button" value="Reload lists" />
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="btn-block">
-            <input class="btn" id="point-lists-button" type="button" value="Reload lists" />
-            <input class="btn" id="load-points-button" type="button" value="Load points" />
+
+<form id="new-list-form" onsubmit="event.preventDefault();">
+    <div class="row">
+        <div class="col-md-6">
+            <label for="point-lists">List name:</label>
+            <input id="new-list-name" name="new-list-name" class="form-control text-box single-line input-validation-error" data-val-required="The field 'list name' is required." data-val="true" type="text" value="" placeholder="" />
+
+        </div>
+        <div class="col-md-6">
+            <label for="point-lists-button" class="">Create list:</label>
+            <input class="form-control btn btn-default" id="new-list-button" type="button" value="Add" />
         </div>
     </div>
-</div>
-
-
+    <div class="row">
+        <div class="col-md-12 list-validation-summary">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+</form>
 

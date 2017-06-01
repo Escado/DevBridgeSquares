@@ -1,15 +1,114 @@
-﻿<table id="point-table" class="table table-hover">
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="pull-left">
+            <input type="button" class="btn btn-primary" id="squares-button" value="Find squares" />
+        </div>
+        <div class="pull-right">
+            <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#import-modal" value="Import" />
+            <input type="submit" class="btn btn-primary" id="download-list-button" value="Download" />
+            <input class="btn btn-default" id="clear-list-button" type="button" value="Clear list" />
+            <input class="btn btn-default" id="delete-list-button" type="button" value="Delete list" />
+        </div>
+    </div>
+</div>
+
+<div class="modal fade in" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="import" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <input name="file" id="file" type="file" />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5> List setting:</h5>
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-primary active">
+                                    <input type="radio" name="list" value="new" autocomplete="off" checked> New list
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="list" value="current" autocomplete="off"> Current list
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>New list name:</label>
+                            <input class="form-control" type="text" name="listName" />
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<h3>Total points: <span id="total-points"></span></h3>
+<table id="point-table" class="table table-hover">
     <thead>
         <tr>
-            <th>
-                X
+            <th id="filter-x">
+                X <span id="filter-x-first" class="">
+                    <span id="filter-x-second" class="caret"></span>
+                </span>
             </th>
-            <th>
-                Y
+            <th id="filter-y">
+                Y<span id="filter-y-first"  class="">
+                    <span id="filter-y-second"  class=""></span>
+                </span>
+            </th>
+            <th style="width:10%;">
+                Delete
             </th>
         </tr>
     </thead>
-    <tbody>
-
-    </tbody>
+    <tbody></tbody>
 </table>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <ul class="pagination">
+            <li><a id="backward-full" ><<</a></li>
+            <li><a id="backward" ><</a></li>
+            <li class="page-number point"><a href="#">1</a></li>
+            <li class="page-number point"><a href="#">2</a></li>
+            <li class="page-number point"><a href="#">3</a></li>
+            <li class="page-number point"><a href="#">4</a></li>
+            <li class="page-number point"><a href="#">5</a></li>
+            <li><a id="forward">></a></li>
+            <li><a id="forward-full" >>></a></li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <label>Per page:</label>
+        <select class="" width="auto" id="paging-points">
+            <option>
+                5
+            </option>
+            <option selected>
+                10
+            </option>
+            <option>
+                20
+            </option>
+            <option>
+                50
+            </option>
+        </select>
+    </div>
+</div>
