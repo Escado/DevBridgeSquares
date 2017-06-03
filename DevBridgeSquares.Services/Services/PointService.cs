@@ -75,7 +75,7 @@ namespace DevBridgeSquares.Services.Services
 
     public class PointService : IPointService
     {
-        private readonly int LIST_POINT_LIMIT = 10000;
+        private const int LIST_POINT_LIMIT = 10000; // TODO: Possble global config candidate ? 
         private readonly IPointRepository _pointRepository;
 
         public PointService(IPointRepository pointRepository)
@@ -87,11 +87,11 @@ namespace DevBridgeSquares.Services.Services
         {
             if (!_pointRepository.IsListPresent(listName)) { throw new DVBSException(DVBSCode.Point.ListDoesntExist); }
 
-            if (_pointRepository.GetPointsCount(listName) >= LIST_POINT_LIMIT) { throw new DVBSException(DVBSCode.Point.LimitExceeded); }
+            if (_pointRepository.IsListFull(listName)) { throw new DVBSException(DVBSCode.Point.LimitExceeded); }
 
-            var points = _pointRepository.Get(listName).ToList();
+            var dbPoint = _pointRepository.GetByCoordinates(listName, point.X, point.Y);
 
-            if (points.Any(x => x == point)) throw new DVBSException(DVBSCode.Point.DuplicatePoint);
+            if (dbPoint == point) throw new DVBSException(DVBSCode.Point.DuplicatePoint);
 
             _pointRepository.Add(listName, point);
         }
@@ -125,7 +125,7 @@ namespace DevBridgeSquares.Services.Services
             if (points.Count() < 4) { throw new DVBSException(DVBSCode.Point.SampleTooSmall); }
 
             var result = new Dictionary<string, List<Point>>();
-
+            var scannedPoints = new List<List<int>>();
             var sameXAxis = new List<Point>();
             var sameYAxis = new List<Point>();
             var resultPoints = new List<Point>();
@@ -133,39 +133,54 @@ namespace DevBridgeSquares.Services.Services
             var id = "";
             foreach (var mainPoint in points)
             {
+
+                // Selects all points on the X axis and goes through them.
                 sameXAxis = points.Where(x => x.Y == mainPoint.Y && x.Id != mainPoint.Id).ToList();
                 if (sameXAxis.Count > 0)
                 {
                     foreach (var secondaryPoint in sameXAxis)
                     {
-                        dist = Math.Abs(mainPoint.X - secondaryPoint.X);
-                        var matches = 
-                            points.Where(x => 
-                            (x.X == mainPoint.X || x.X == secondaryPoint.X) 
-                            && 
-                            ((x.Y == mainPoint.Y + dist || x.Y == secondaryPoint.Y + dist) 
-                            ||
-                            (x.Y == mainPoint.Y - dist || x.Y == secondaryPoint.Y - dist)))
-                            .ToList();
-
-                        if (matches.Count == 2)
+                        // This is so that no two points would be scanned twice
+                        if (scannedPoints.Any(x => x.Contains(secondaryPoint.Id) && x.Contains(mainPoint.Id)))
                         {
-                            resultPoints.AddRange(matches);
-                            resultPoints.Add(mainPoint);
-                            resultPoints.Add(secondaryPoint);
-                            id = string.Join(",", resultPoints.OrderBy(x => x.Id).Select(x => x.Id.ToString()).ToArray());
-                            if (!result.ContainsKey(id))
-                            {
-                                result.Add(id, resultPoints);
-                            }
-                            resultPoints = new List<Point>();
+                            continue;
                         }
-                            
+
+                        dist = Math.Abs(mainPoint.X - secondaryPoint.X);
+
+                        var aboveMainPoint = points.FirstOrDefault(x => x.X == mainPoint.X && x.Y == mainPoint.Y + dist);
+                        var aboveSecondaryPoint = points.FirstOrDefault(x => x.X == secondaryPoint.X && x.Y == secondaryPoint.Y + dist);
+
+                        var belowMainPoint = points.FirstOrDefault(x => x.X == mainPoint.X && x.Y == mainPoint.Y - dist);
+                        var belowSecondaryPoint = points.FirstOrDefault(x => x.X == secondaryPoint.X && x.Y == secondaryPoint.Y - dist);
+
+                        // if there are two points above the ones we selected we add them all to squares list.
+                        if (aboveMainPoint != null && aboveSecondaryPoint != null)
+                        {
+                            AppendSquaresResult(new List<Point>() { mainPoint, secondaryPoint, aboveMainPoint, aboveSecondaryPoint }, ref result);
+                        }
+
+                        // Same with points belowe the ones we selected.
+                        if (belowMainPoint != null && belowSecondaryPoint != null)
+                        {
+                            AppendSquaresResult(new List<Point>() { mainPoint, secondaryPoint, belowMainPoint, belowSecondaryPoint }, ref result);
+                        }
+
+                        scannedPoints.Add(new List<int>() { mainPoint.Id, secondaryPoint.Id });
                     }
                 }
             }
 
             return result;
+        }
+
+        private void AppendSquaresResult(List<Point> points, ref Dictionary<string, List<Point>> result)
+        {
+            var id = string.Join(",", points.OrderBy(x => x.Id).Select(x => x.Id.ToString()).ToArray());
+            if (!result.ContainsKey(id))
+            {
+                result.Add(id, points);
+            }
         }
 
         public IEnumerable<Point> Get(PointParams par, out int totalEntries, out int page)
@@ -266,7 +281,6 @@ namespace DevBridgeSquares.Services.Services
                     if (uniques.Count() > LIST_POINT_LIMIT)
                     {
                         _pointRepository.Add(listName, uniques.Take(LIST_POINT_LIMIT));
-                        totals.IsLimitReached = true;
                     }
                     else
                     {
@@ -289,6 +303,8 @@ namespace DevBridgeSquares.Services.Services
                     totals.insertedCount = uniques.Count();
                     _pointRepository.Add(listName, uniques);
                 }
+
+                totals.IsLimitReached = _pointRepository.IsListFull(listName);
             }
         }
     }

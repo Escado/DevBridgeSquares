@@ -41,6 +41,10 @@ namespace DevBridgeSquares.Entities.Models
 
         public static bool operator !=(Point first, Point second)
         {
+            if (ReferenceEquals(first, null))
+            {
+                return !ReferenceEquals(second, null);
+            }
             return !first.Equals(second);
         }
 

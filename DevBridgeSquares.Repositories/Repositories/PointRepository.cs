@@ -29,6 +29,8 @@ namespace DevBridgeSquares.Repositories.Repositories
         /// <returns></returns>
         IEnumerable<Point> Get(string listName);
 
+
+        Point GetByCoordinates(string listName, int x, int y);
         /// <summary>
         /// Gets names of point lists.
         /// </summary>
@@ -97,6 +99,13 @@ namespace DevBridgeSquares.Repositories.Repositories
         void Remove(string listName, int Id);
 
         /// <summary>
+        /// Returns true if there are  less points in list than the limit.
+        /// </summary>
+        /// <param name="listName"></param>
+        /// <returns></returns>
+        bool IsListFull(string listName);
+
+        /// <summary>
         /// Removes points by id from list.
         /// </summary>
         /// <param name="listName"></param>
@@ -112,7 +121,8 @@ namespace DevBridgeSquares.Repositories.Repositories
 
     public class PointRepository : IPointRepository
     {
-        private const string DEFAULT_NAME = "Default";
+        private const string DEFAULT_NAME = "Default"; // TODO: Possible global config candidate ?
+        private const int LIST_POINT_LIMIT = 10000; // TODO: Possble global config candidate ? 
         private Dictionary<string, List<Point>> _points;
         private int _indexer;
 
@@ -123,6 +133,33 @@ namespace DevBridgeSquares.Repositories.Repositories
             _points = new Dictionary<string, List<Point>>();
             _indexer = 0;
             _points.Add(DEFAULT_NAME, new List<Point>());
+            for (int i = -100; i <= 100; i++)
+            {
+                _points[DEFAULT_NAME].Add(new Point()
+                {
+                    X = i,
+                    Y = i,
+                    Id = _indexer++,
+                });
+                _points[DEFAULT_NAME].Add(new Point()
+                {
+                    X = i-1,
+                    Y = i,
+                    Id = _indexer++,
+                });
+                _points[DEFAULT_NAME].Add(new Point()
+                {
+                    X = i,
+                    Y = i-1,
+                    Id = _indexer++,
+                });
+                _points[DEFAULT_NAME].Add(new Point()
+                {
+                    X = i-1,
+                    Y = i-1,
+                    Id = _indexer++,
+                });
+            }
         }
 
         public void Add(string listName) => _points.Add(listName, new List<Point>());
@@ -168,9 +205,13 @@ namespace DevBridgeSquares.Repositories.Repositories
 
         public IEnumerable<Point> Get(string listName) => _points[listName];
 
+        public Point GetByCoordinates(string listName, int x, int y) => _points[listName].FirstOrDefault(p => p.X == x && p.Y == y);
+
         public List<string> GetListNames() => _points.Keys.ToList();
 
         public int GetPointsCount(string listName) => _points[listName].Count;
+
+        public bool IsListFull(string listName) => _points[listName].Count >= LIST_POINT_LIMIT;
 
         public bool IsListPresent(string listName) => _points.ContainsKey(listName);
 

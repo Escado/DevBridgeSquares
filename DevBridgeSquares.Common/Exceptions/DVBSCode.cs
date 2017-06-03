@@ -38,7 +38,7 @@ namespace DevBridgeSquares.Common.Exceptions
             [Description("List with the same name already exists.")]
             ListAlreadyExists = 20006,
 
-            [Description("Maximum amount of points in a list cannot exceed 10000.")]
+            [Description("List is full or at limit.")]
             LimitExceeded = 20007,
 
             [Description("Atleast 4 points are needed for a square.")]
