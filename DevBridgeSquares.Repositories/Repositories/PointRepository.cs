@@ -133,33 +133,6 @@ namespace DevBridgeSquares.Repositories.Repositories
             _points = new Dictionary<string, List<Point>>();
             _indexer = 0;
             _points.Add(DEFAULT_NAME, new List<Point>());
-            for (int i = -100; i <= 100; i++)
-            {
-                _points[DEFAULT_NAME].Add(new Point()
-                {
-                    X = i,
-                    Y = i,
-                    Id = _indexer++,
-                });
-                _points[DEFAULT_NAME].Add(new Point()
-                {
-                    X = i-1,
-                    Y = i,
-                    Id = _indexer++,
-                });
-                _points[DEFAULT_NAME].Add(new Point()
-                {
-                    X = i,
-                    Y = i-1,
-                    Id = _indexer++,
-                });
-                _points[DEFAULT_NAME].Add(new Point()
-                {
-                    X = i-1,
-                    Y = i-1,
-                    Id = _indexer++,
-                });
-            }
         }
 
         public void Add(string listName) => _points.Add(listName, new List<Point>());
